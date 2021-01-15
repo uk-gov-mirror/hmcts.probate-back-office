@@ -222,6 +222,7 @@
       "grantIssuedEmailNotificationRequested": true,
       "docsReceivedEmailNotificationRequested": true,
       "primaryApplicantFullName": "fname lname",
+      "primaryApplicantEmailAddress": "primary@probate-test.com",
       "deceasedFullName": "deceasedfname deceasedlname",
       "primaryApplicantApplying": true
     },
