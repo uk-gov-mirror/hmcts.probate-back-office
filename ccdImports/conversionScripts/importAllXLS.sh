@@ -11,6 +11,9 @@ echo xlsToJsonFolder = $xlsToJsonFolder
 echo CCD_Probate_Backoffice ....................
 ${binFolder}/ccd-import-definition.sh "${xlsToJsonFolder}/CCD_Probate_Backoffice.xlsx"
 echo
+echo CCD_Probate_Backoffice_GoRv2 ....................
+${binFolder}/ccd-import-definition.sh "${xlsToJsonFolder}/CCD_Probate_Backoffice_GoRv2.xlsx"
+echo
 echo CCD_Probate_Caveat ........................
 ${binFolder}/ccd-import-definition.sh "${xlsToJsonFolder}/CCD_Probate_Caveat.xlsx"
 echo

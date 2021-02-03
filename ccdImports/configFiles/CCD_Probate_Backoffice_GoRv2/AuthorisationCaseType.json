@@ -1,0 +1,14 @@
+[
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-issuer", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-solicitor", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-systemupdate", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-scheduler", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "citizen", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-caseadmin", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-caseofficer", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-registrar", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-superuser", "CRUD": "CRUD"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-pcqextractor", "CRUD": "R"},
+  {"CaseTypeID": "GrantOfRepresentationV2", "UserRole": "caseworker-probate-charity", "CRUD": "R"}
+]
