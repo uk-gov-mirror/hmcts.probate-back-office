@@ -2,7 +2,7 @@ package uk.gov.hmcts.probate.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,7 @@ import uk.gov.hmcts.probate.config.properties.registries.Registry;
 import uk.gov.hmcts.probate.exception.BadRequestException;
 import uk.gov.hmcts.probate.exception.InvalidEmailException;
 import uk.gov.hmcts.probate.model.ApplicationType;
+import uk.gov.hmcts.probate.model.CaseOrigin;
 import uk.gov.hmcts.probate.model.Constants;
 import uk.gov.hmcts.probate.model.DocumentType;
 import uk.gov.hmcts.probate.model.ExecutorsApplyingNotification;
@@ -96,12 +97,19 @@ public class NotificationService {
 
     public Document sendEmail(State state, CaseDetails caseDetails)
         throws NotificationClientException {
+        return sendEmail(state, caseDetails, Optional.empty());
+    }
+    
+    public Document sendEmail(State state, CaseDetails caseDetails, Optional<CaseOrigin> caseOriginOptional)
+        throws NotificationClientException {
 
         CaseData caseData = caseDetails.getData();
         log.info("sendEmail for case: {}", caseDetails.getId());
         Registry registry = getRegistry(caseData.getRegistryLocation(), caseData.getLanguagePreference());
+        log.info("template params, state={}, applicationType()={}, regLocation={}, language={}, paperForm={}, for case: {}, origin: {}", 
+            state, caseData.getApplicationType(), caseData.getRegistryLocation(), caseData.getLanguagePreference(), caseData.getPaperForm(), caseDetails.getId(), caseOriginOptional.isEmpty() ? "none" : caseOriginOptional.get());
         String templateId = templateService.getTemplateId(state, caseData.getApplicationType(),
-            caseData.getRegistryLocation(), caseData.getLanguagePreference());
+            caseData.getRegistryLocation(), caseData.getLanguagePreference(), caseData.getPaperForm(), caseOriginOptional.orElse(null));
         log.info("Got templateId: {}", templateId);
         String emailReplyToId = registry.getEmailReplyToId();
         String emailAddress = getEmail(caseData);
@@ -113,7 +121,7 @@ public class NotificationService {
             personalisation = caveatPersonalisationService.getCaveatStopPersonalisation(personalisation, caseData);
         }
 
-        if (caseData.getApplicationType().equals(ApplicationType.SOLICITOR)) {
+        if (caseData.getApplicationType().equals(ApplicationType.SOLICITOR) && !StringUtils.isEmpty(caseData.getSolsSOTName())) {
             personalisation.replace(PERSONALISATION_APPLICANT_NAME, caseData.getSolsSOTName());
         }
         log.info("Personlisation complete now get the email repsonse");
@@ -271,7 +279,7 @@ public class NotificationService {
         String reference = caseDetails.getData().getSolsSolicitorAppReference();
         String emailAddress = caseDetails.getData().getPrimaryApplicantEmailAddress();
         SendEmailResponse response = notificationClient.sendEmail(templateId, emailAddress, personalisation, reference);
-        log.info("Grant delayed email reference response: {}", response.getReference());
+        log.info("Grant notification email reference response: {}", response.getReference());
 
         return getGeneratedSentEmailDocument(response, emailAddress, SENT_EMAIL);
     }
@@ -315,8 +323,11 @@ public class NotificationService {
 
         CaseData caseData = caseDetails.getData();
         LocalDate grantDelayedNotificationReleaseLocalDate = LocalDate.parse(grantDelayedNotificationReleaseDate, RELEASE_DATE_FORMAT);
-        if (!LocalDate.now().isBefore(grantDelayedNotificationReleaseLocalDate)) {
-            caseData.setGrantAwaitingDocumentationNotificationDate(LocalDate.now().plusDays(grantAwaitingDocumentationNotificationPeriodDays));
+        if (!LocalDate.now().isBefore(grantDelayedNotificationReleaseLocalDate)
+            && (caseData.getScannedDocuments() == null || caseData.getScannedDocuments().isEmpty())) {
+            LocalDate notificationDate = LocalDate.now().plusDays(grantAwaitingDocumentationNotificationPeriodDays);
+            log.info("Setting grantAwaitingDocumentationNotificationDate {} for case {}", notificationDate.toString(), caseDetails.getId());
+            caseData.setGrantAwaitingDocumentationNotificationDate(notificationDate);
         }
     }
 
@@ -325,6 +336,7 @@ public class NotificationService {
         CaseData caseData = caseDetails.getData();
         LocalDate grantDelayedNotificationReleaseLocalDate = LocalDate.parse(grantDelayedNotificationReleaseDate, RELEASE_DATE_FORMAT);
         if (!LocalDate.now().isBefore(grantDelayedNotificationReleaseLocalDate)) {
+            log.info("Resetting grantAwaitingDocumentationNotificationDate to null for case {}", caseDetails.getId());
             caseData.setGrantAwaitingDocumentationNotificationDate(null);
         }
     }
@@ -365,7 +377,7 @@ public class NotificationService {
             default:
                 response = notificationClient.sendEmail(templateId, emailAddress, personalisation, reference);
         }
-        log.info("Return the SendEmailResponse: {} " , response );
+        log.info("Return the SendEmailResponse");
         return response;
     }
 

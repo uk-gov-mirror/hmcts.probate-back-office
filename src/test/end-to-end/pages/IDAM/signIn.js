@@ -2,15 +2,17 @@
 
 const testConfig = require('src/test/config.js');
 
-module.exports = function () {
+module.exports = async function (useProfessionalUser, isAlreadyAtSignOnPage) {
 
     const I = this;
+    if (!isAlreadyAtSignOnPage) {
+        await I.amOnLoadedPage('/');
+    }
 
-    I.amOnPage('/');
-    I.see('Sign in');
+    await I.waitForText('Sign in');
 
-    I.fillField('username', testConfig.TestEnvUser);
-    I.fillField('password', testConfig.TestEnvPassword);
+    await I.fillField('#username', useProfessionalUser ? testConfig.TestEnvProfUser : testConfig.TestEnvUser);
+    await I.fillField('#password', useProfessionalUser ? testConfig.TestEnvProfPassword : testConfig.TestEnvPassword);
 
-    I.waitForNavigationToComplete('input[value="Sign in"]');
+    await I.waitForNavigationToComplete('input[type="submit"]');
 };

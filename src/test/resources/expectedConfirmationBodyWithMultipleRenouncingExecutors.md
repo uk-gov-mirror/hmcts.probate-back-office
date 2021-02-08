@@ -22,9 +22,9 @@ Payment summary
 
 **Fee amount** &pound;0.10
 
-**Payment method** Cheque
+**Payment method** fee account
 
-**Payment reference number** Cheque (payable to 'HM Courts & Tribunals Service')
+**Payment reference number** Fee account PBA-12345
 
 Notes for this application
 -------------------------------------------------
@@ -39,7 +39,7 @@ Print a copy of this page for your records.
 You now need to send us:
 
 *   the original will
-*   fee payment: your Cheque for &pound;0.10 (grant and copies)
+*   fee payment: your fee account for &pound;0.10 (grant and copies)
 *   the printed version of this page which will be used as your cover letter to us
 *   completed inheritance tax form IHT207
 *   renunciation form for Tim Smith
@@ -53,6 +53,7 @@ You should:
 
 *   use recorded delivery
 *   keep copies of all documents
+*   if you are providing a notarial copy or a court sealed copy of the will please also provide a cover letter with the application indicating where the original will is and why it cannot be released. 
 
 Send all documents to:
 

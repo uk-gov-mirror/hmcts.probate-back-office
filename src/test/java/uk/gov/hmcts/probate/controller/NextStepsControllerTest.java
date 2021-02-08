@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.probate.controller.CaseDataTestBuilder.ID;
 import static uk.gov.hmcts.probate.controller.CaseDataTestBuilder.LAST_MODIFIED;
-import static uk.gov.hmcts.probate.controller.CaseDataTestBuilder.SOLICITOR_FIRM_LINE1;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,6 +35,7 @@ public class NextStepsControllerTest {
   
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String NEXTSTEPS_CONFIRMATION_URL = "/nextsteps/confirmation";
+    private static final String APPLICATION_GROUNDS = "Application grounds";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -63,7 +63,7 @@ public class NextStepsControllerTest {
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
         mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -89,7 +89,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -105,7 +105,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -121,7 +121,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -137,7 +137,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -153,7 +153,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -171,7 +171,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -189,7 +189,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -207,7 +207,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -225,7 +225,7 @@ public class NextStepsControllerTest {
         CallbackRequest callbackRequest = new CallbackRequest(caseDetails);
 
         String json = OBJECT_MAPPER.writeValueAsString(callbackRequest);
-        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.fieldErrors[0].param").value("callbackRequest"))
@@ -245,6 +245,6 @@ public class NextStepsControllerTest {
         mockMvc.perform(post(NEXTSTEPS_CONFIRMATION_URL).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"confirmation_header\":null,\"confirmation_body\":null}"))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 }

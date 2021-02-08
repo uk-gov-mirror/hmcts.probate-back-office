@@ -80,17 +80,17 @@ public class ExceptionRecordControllerTest {
         updateCasePayload = testUtils.getStringFromFile("updateExceptionRecordDataPA8A.json");
         warnings.add("test warning");
         when(ocrPopulatedValueMapper.ocrPopulatedValueMapper(any())).thenReturn(ocrFields);
-        when(ocrToCCDMandatoryField.ocrToCCDMandatoryFields(eq(ocrFields), any(), any())).thenReturn(EMPTY_LIST);
+        when(ocrToCCDMandatoryField.ocrToCCDMandatoryFields(eq(ocrFields), any())).thenReturn(EMPTY_LIST);
     }
 
     @Test
     public void testWarningsPopulateListAndReturnOkWithWarningsResponseState() throws Exception {
-        when(ocrToCCDMandatoryField.ocrToCCDMandatoryFields(any(), any(), any())).thenReturn(warnings);
+        when(ocrToCCDMandatoryField.ocrToCCDMandatoryFields(any(), any())).thenReturn(warnings);
         mockMvc.perform(post("/transform-exception-record")
                 .content(exceptionRecordPayloadPA8A)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString("Please resolve all warnings before creating this case")));
+                .andExpect(content().string(containsString("{\"warnings\":[\"test warning\"],\"errors\":[\"OCR fields could not be mapped to a case\"]}")));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class ExceptionRecordControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().string(containsString(
-                        "\"warnings\":[\"OCR Data Mapping Error: This Exception Record can not be created as a case\"]")));
+                        "\"warnings\":[\"OCR Data Mapping Error: This Exception Record can not be created as a case: 1001\"]")));
     }
 
     @Ignore
@@ -203,7 +203,7 @@ public class ExceptionRecordControllerTest {
             .content(updateCasePayload.replace("SUPPLEMENTARY_EVIDENCE_WITH_OCR", JourneyClassification.SUPPLEMENTARY_EVIDENCE.name()))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isUnprocessableEntity())
-            .andExpect(content().string(containsString("{\"warnings\":[\"OCR Data Mapping Error: This Exception Record can not be created as a case update\"],\"errors\":[\"OCR fields could not be mapped to a case\"]}")));
+            .andExpect(content().string(containsString("{\"warnings\":[\"OCR Data Mapping Error: This Exception Record can not be created as a case update for case:1542274092932452\"],\"errors\":[\"OCR fields could not be mapped to a case\"]}")));
     }
 
     @Test
@@ -213,6 +213,6 @@ public class ExceptionRecordControllerTest {
             .content(updateCasePayload.replace("\"form_type\": \"PA8A\"", "\"form_type\": \"PA1A\""))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isUnprocessableEntity())
-            .andExpect(content().string(containsString("{\"warnings\":[\"OCR Data Mapping Error: This Exception Record form currently has no case mapping\"],\"errors\":[\"OCR fields could not be mapped to a case\"]}")));
+            .andExpect(content().string(containsString("{\"warnings\":[\"OCR Data Mapping Error: This Exception Record form currently has no case mapping for case: 1542274092932452\"],\"errors\":[\"OCR fields could not be mapped to a case\"]}")));
     }
 }

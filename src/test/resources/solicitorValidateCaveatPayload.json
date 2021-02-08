@@ -19,7 +19,7 @@
       "applicationType": "Solicitor",
       "registryLocation": "ctsc",
       "solsSolicitorFirmName": "The Firm",
-      "caveatorEmailAddress": "test@test.com",
+      "caveatorEmailAddress": "caveator@probate-test.com",
       "solsSolicitorPhoneNumber": "07070707077",
       "caveatorAddress": {
         "AddressLine1": "2",
@@ -48,7 +48,7 @@
         "PostCode": "2",
         "Country": ""
       },
-      "solsPaymentMethods": "cheque",
+      "solsPaymentMethods": "fee account",
       "solsFeeAccountNumber": "12345"
     },
     "data_classification": {

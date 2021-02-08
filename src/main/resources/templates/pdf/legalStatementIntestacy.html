@@ -72,7 +72,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <p>The applicant believes that all the information stated in the legal statement is true. They have authorised {{ case_details.case_data.solsSolicitorFirmName }} to sign a statement of truth on their behalf.</p>
+            <p>The applicant believes that all the information stated in the legal statement is true.</p>
             <p>This statement is based on the information given in your application. It will be stored as a public record.</p>
             <p>I, {{ case_details.case_data.primaryApplicantForenames }} {{ case_details.case_data.primaryApplicantSurname }} of
                 {% if case_details.case_data.primaryApplicantAddress.AddressLine1 != null and case_details.case_data.primaryApplicantAddress.AddressLine1 != "" %}{{ case_details.case_data.primaryApplicantAddress.AddressLine1 }},{% endif %}
@@ -131,7 +131,8 @@
                 {% else %}
                 judicially separated
                 {% endif %}
-                and domiciled in England and Wales.</p>
+                and domiciled in {% if case_details.case_data.domicilityCountry != null and case_details.case_data.domicilityCountry != "" %}{{ case_details.case_data.domicilityCountry }}.{% else %}England and Wales.{% endif %}
+            </p>
             <p>No children under 18 are entitled to the estate.</p>
         </td>
     </tr>
@@ -141,7 +142,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <p>The gross value for the estate amounts to &#163;{{ (case_details.case_data.ihtGrossValue/100)|numberformat("#.00") }} and the net value for the estate amounts to &#163;{{ (case_details.case_data.ihtNetValue/100)|numberformat("#.00") }}.</p>
+            <p>The gross value for the estate in England and Wales amounts to &#163;{{ (case_details.case_data.ihtGrossValue/100)|numberformat("#.00") }} and the net value for the estate amounts to &#163;{{ (case_details.case_data.ihtNetValue/100)|numberformat("#.00") }}.</p>
             <p>To the best of my knowledge, information and belief, there was no land vested in {{ case_details.case_data.deceasedForenames }} {{ case_details.case_data.deceasedSurname }} which was settled previously to the death of {{ case_details.case_data.deceasedForenames }} {{ case_details.case_data.deceasedSurname }} and which remained settled land notwithstanding such death.</p>
         </td>
     </tr>
@@ -151,6 +152,11 @@
     </tr>
     <tr>
         <td colspan="2">
+            <p>
+                {% if case_details.case_data.applicationGrounds != null and case_details.case_data.applicationGrounds != "" %}The grounds for making this application and any supporting evidence are:
+                {{ case_details.case_data.applicationGrounds }}
+                {% endif %}
+            </p>
             <p>
                 {% if case_details.case_data.deceasedMaritalStatus == "marriedCivilPartnership" %}
                 {% if case_details.case_data.solsApplicantRelationshipToDeceased == "SpouseOrCivil" %}I am the spouse or civil partner of {{ case_details.case_data.deceasedForenames }} {{ case_details.case_data.deceasedSurname }} and the only person now entitled to the estate.
@@ -189,7 +195,7 @@
             <p>I understand that:</p>
             <ul>
                 <li>the application will be rejected if I do not provide information (if asked)</li>
-                <li>criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest</li>
+                <li>proceedings for contempt of court may be brought against the undersigned if it is found that the evidence provided is deliberately untruthful or dishonest, as well as revocation of the grant</li>
             </ul>
             <p>I authorise {{ case_details.case_data.solsSolicitorFirmName }}, as my appointed firm to
                 submit this application on my behalf.</p>

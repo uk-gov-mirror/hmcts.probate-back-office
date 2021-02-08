@@ -82,7 +82,7 @@
       "solsSolicitorFirmName": "Solicitor Firm Name",
       "deceasedDateOfDeath": "2000-01-01",
       "solsSOTNeedToUpdate": "No",
-      "primaryApplicantEmailAddress": "personal@hmcts-test.com",
+      "primaryApplicantEmailAddress": "primary@probate-test.com",
       "primaryApplicantForenames": "Executor name 1",
       "primaryApplicantAddress": {
         "County": "",
@@ -93,7 +93,17 @@
         "AddressLine2": "",
         "AddressLine3": ""
       },
-      "solsSolicitorEmail": "probBackosol@gmail.com",
+      "solsSolicitorEmail": "solicitor@probate-test.com",
+      "applicationGrounds": "Grounds for application",
+      "ukEstate": [
+        {
+          "id": "5922cd88-3704-998e-cc30-8ae3bccbdf45",
+          "value": {
+            "item": "item1",
+            "value": "1000"
+          }
+        }
+      ],
       "deceasedDomicileInEngWales": "Yes",
       "ihtNetValue": "800000",
       "deceasedSurname": "Deceased Last Name",
@@ -175,6 +185,19 @@
         }
       },
       "solsSolicitorEmail": "PUBLIC",
+      "applicationGrounds": "PUBLIC",
+      "ukEstate": {
+        "classification": "PUBLIC",
+        "value": [
+          {
+            "id": "5922cd88-3704-998e-cc30-8ae3bccbdf45",
+            "value": {
+              "item": "PUBLIC",
+              "value": "PUBLIC"
+            }
+          }
+        ]
+      },
       "deceasedDomicileInEngWales": "PUBLIC",
       "ihtNetValue": "PUBLIC",
       "deceasedSurname": "PUBLIC",
@@ -255,6 +278,19 @@
         }
       },
       "solsSolicitorEmail": "PUBLIC",
+      "applicationGrounds": "PUBLIC",
+      "ukEstate": {
+        "classification": "PUBLIC",
+        "value": [
+          {
+            "id": "5922cd88-3704-998e-cc30-8ae3bccbdf45",
+            "value": {
+              "item": "PUBLIC",
+              "value": "PUBLIC"
+            }
+          }
+        ]
+      },
       "deceasedDomicileInEngWales": "PUBLIC",
       "ihtNetValue": "PUBLIC",
       "deceasedSurname": "PUBLIC",
@@ -347,7 +383,17 @@
         "AddressLine2": "",
         "AddressLine3": ""
       },
-      "solsSolicitorEmail": "probBackosol@gmail.com",
+      "solsSolicitorEmail": "solicitor@probate-test.com",
+      "applicationGrounds": "Grounds for application",
+      "ukEstate": [
+        {
+          "id": "5922cd88-3704-998e-cc30-8ae3bccbdf45",
+          "value": {
+            "item": "item1",
+            "value": "1000"
+          }
+        }
+      ],
       "deceasedDomicileInEngWales": "Yes",
       "ihtNetValue": "800000",
       "deceasedSurname": "Deceased Last Name",
@@ -416,6 +462,19 @@
         "classification": "PUBLIC"
       },
       "solsSolicitorEmail": "PUBLIC",
+      "applicationGrounds": "PUBLIC",
+      "ukEstate": {
+        "classification": "PUBLIC",
+        "value": [
+          {
+            "id": "5922cd88-3704-998e-cc30-8ae3bccbdf45",
+            "value": {
+              "item": "PUBLIC",
+              "value": "PUBLIC"
+            }
+          }
+        ]
+      },
       "deceasedDomicileInEngWales": "PUBLIC",
       "ihtNetValue": "PUBLIC",
       "deceasedSurname": "PUBLIC",
@@ -483,6 +542,19 @@
         "classification": "PUBLIC"
       },
       "solsSolicitorEmail": "PUBLIC",
+      "applicationGrounds": "PUBLIC",
+      "ukEstate": {
+        "classification": "PUBLIC",
+        "value": [
+          {
+            "id": "5922cd88-3704-998e-cc30-8ae3bccbdf45",
+            "value": {
+              "item": "PUBLIC",
+              "value": "PUBLIC"
+            }
+          }
+        ]
+      },
       "deceasedDomicileInEngWales": "PUBLIC",
       "ihtNetValue": "PUBLIC",
       "deceasedSurname": "PUBLIC",

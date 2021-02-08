@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import uk.gov.hmcts.probate.model.ApplicationType;
 import uk.gov.hmcts.probate.model.ExecutorsApplyingNotification;
 import uk.gov.hmcts.probate.model.ccd.CaseMatch;
@@ -20,7 +23,6 @@ import uk.gov.hmcts.probate.model.ccd.raw.CollectionMember;
 import uk.gov.hmcts.probate.model.ccd.raw.Declaration;
 import uk.gov.hmcts.probate.model.ccd.raw.Document;
 import uk.gov.hmcts.probate.model.ccd.raw.DocumentLink;
-import uk.gov.hmcts.probate.model.ccd.raw.DynamicList;
 import uk.gov.hmcts.probate.model.ccd.raw.EstateItem;
 import uk.gov.hmcts.probate.model.ccd.raw.LegalStatement;
 import uk.gov.hmcts.probate.model.ccd.raw.ParagraphDetail;
@@ -35,10 +37,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseCaseData {
+@SuperBuilder
+@Jacksonized
+@EqualsAndHashCode(callSuper=true)
+@Data
+public class ResponseCaseData extends ResponseCaseDataParent {
 
     private final String state;
     private final ApplicationType applicationType;
@@ -179,6 +183,14 @@ public class ResponseCaseData {
     private final String domicilityCountry;
     private final List<CollectionMember<EstateItem>> ukEstate;
     private final String domicilityIHTCert;
+    private final String applicationGrounds;
+    private final String willDispose;
+    private final String englishWill;
+    private final String appointExec;
+
+    private final String appointExecByDuties;
+    private final String appointExecNo;
+    private final String immovableEstate;
     private final String willDatedBeforeApril;
     private final String deceasedEnterMarriageOrCP;
     private final String deceasedMaritalStatus;
@@ -298,6 +310,7 @@ public class ResponseCaseData {
 
     private final Categories categories;
     private final DocumentLink previewLink;
+
     @Builder.Default
     private List<CollectionMember<ParagraphDetail>> paragraphDetails = new ArrayList<>();
     private String bulkScanCaseReference;
@@ -308,8 +321,6 @@ public class ResponseCaseData {
     private final String grantDelayedNotificationSent;
     private final String grantAwaitingDocumentationNotificationDate;
     private final String grantAwaitingDocumentatioNotificationSent;
-
-    private final DynamicList reprintDocument;
-    private final String reprintNumberOfCopies;
+    private final String pcqId;
 
 }

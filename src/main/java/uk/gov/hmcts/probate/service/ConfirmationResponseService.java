@@ -2,15 +2,15 @@ package uk.gov.hmcts.probate.service;
 
 import com.google.common.base.Strings;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.changerule.ApplicantSiblingsRule;
 import uk.gov.hmcts.probate.changerule.ChangeRule;
 import uk.gov.hmcts.probate.changerule.DiedOrNotApplyingRule;
-import uk.gov.hmcts.probate.changerule.DomicilityRule;
 import uk.gov.hmcts.probate.changerule.EntitledMinorityRule;
 import uk.gov.hmcts.probate.changerule.ExecutorsRule;
+import uk.gov.hmcts.probate.changerule.ImmovableEstateRule;
 import uk.gov.hmcts.probate.changerule.LifeInterestRule;
 import uk.gov.hmcts.probate.changerule.MinorityInterestRule;
 import uk.gov.hmcts.probate.changerule.NoOriginalWillRule;
@@ -30,6 +30,7 @@ import uk.gov.hmcts.probate.model.template.TemplateResponse;
 import uk.gov.hmcts.probate.service.template.markdown.MarkdownSubstitutionService;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static uk.gov.hmcts.probate.model.Constants.GRANT_TYPE_ADMON;
+import static uk.gov.hmcts.probate.model.Constants.GRANT_TYPE_INTESTACY;
+import static uk.gov.hmcts.probate.model.Constants.GRANT_TYPE_PROBATE;
 import static uk.gov.hmcts.probate.model.template.MarkdownTemplate.STOP_BODY;
 
 @Component
@@ -47,10 +51,7 @@ public class ConfirmationResponseService {
     private static final String REASON_FOR_NOT_APPLYING_DIED_BEFORE = "DiedBefore";
     private static final String REASON_FOR_NOT_APPLYING_DIED_AFTER = "DiedAfter";
     private static final String IHT_400421 = "IHT400421";
-    private static final String GRANT_TYPE_PROBATE = "WillLeft";
-    private static final String GRANT_TYPE_INTESTACY = "NoWill";
-    private static final String GRANT_TYPE_ADMON = "WillLeftAnnexed";
-    private static final String CAVEAT_APPLICATION_FEE = "20.00";
+    private static final String CAVEAT_APPLICATION_FEE = "3.00";
 
     static final String PAYMENT_METHOD_VALUE_FEE_ACCOUNT = "fee account";
     static final String PAYMENT_REFERENCE_FEE_PREFIX = "Fee account PBA-";
@@ -65,9 +66,9 @@ public class ConfirmationResponseService {
 
     private final ApplicantSiblingsRule applicantSiblingsConfirmationResponseRule;
     private final DiedOrNotApplyingRule diedOrNotApplyingRule;
-    private final DomicilityRule domicilityConfirmationResponseRule;
     private final EntitledMinorityRule entitledMinorityRule;
     private final ExecutorsRule executorsConfirmationResponseRule;
+    private final ImmovableEstateRule immovableEstateRule;
     private final LifeInterestRule lifeInterestRule;
     private final MinorityInterestRule minorityInterestConfirmationResponseRule;
     private final NoOriginalWillRule noOriginalWillRule;
@@ -107,10 +108,7 @@ public class ConfirmationResponseService {
 
     private TemplateResponse generateStopBodyMarkdown(CaseData caseData) {
 
-        Optional<TemplateResponse> response = getStopBodyMarkdown(caseData, domicilityConfirmationResponseRule, STOP_BODY);
-        if (response.isPresent()) {
-            return response.get();
-        }
+        Optional<TemplateResponse> response = Optional.of(new TemplateResponse(null));
 
         if (GRANT_TYPE_PROBATE.equals(caseData.getSolsWillType())) {
             response = getStopBodyMarkdown(caseData, executorsConfirmationResponseRule, STOP_BODY);
@@ -126,6 +124,11 @@ public class ConfirmationResponseService {
 
         if (GRANT_TYPE_INTESTACY.equals(caseData.getSolsWillType())) {
             response = getStopBodyMarkdown(caseData, minorityInterestConfirmationResponseRule, STOP_BODY);
+            if (response.isPresent()) {
+                return response.get();
+            }
+
+            response = getStopBodyMarkdown(caseData, immovableEstateRule, STOP_BODY);
             if (response.isPresent()) {
                 return response.get();
             }
@@ -152,6 +155,11 @@ public class ConfirmationResponseService {
         }
 
         if (GRANT_TYPE_ADMON.equals(caseData.getSolsWillType())) {
+            response = getStopBodyMarkdown(caseData, immovableEstateRule, STOP_BODY);
+            if (response.isPresent()) {
+                return response.get();
+            }
+
             response = getStopBodyMarkdown(caseData, noOriginalWillRule, STOP_BODY);
             if (response.isPresent()) {
                 return response.get();
@@ -316,7 +324,7 @@ public class ConfirmationResponseService {
     }
 
     private String getAmountAsString(BigDecimal amount) {
-        return amount.divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        return amount.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).toString();
     }
 
     private String getPaymentReference(CCDData ccdData) {

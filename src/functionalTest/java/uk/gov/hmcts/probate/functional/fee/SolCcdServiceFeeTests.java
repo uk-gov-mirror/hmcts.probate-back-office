@@ -1,18 +1,21 @@
 package uk.gov.hmcts.probate.functional.fee;
 
-import net.serenitybdd.junit.runners.SerenityRunner;
+
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.thucydides.core.annotations.Pending;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 import static io.restassured.http.ContentType.JSON;
-import static net.serenitybdd.rest.SerenityRest.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static io.restassured.RestAssured.given;
 
 
-@RunWith(SerenityRunner.class)
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class SolCcdServiceFeeTests extends IntegrationTestBase {
+
 
     @Test
     public void verifyNetValue10000() {

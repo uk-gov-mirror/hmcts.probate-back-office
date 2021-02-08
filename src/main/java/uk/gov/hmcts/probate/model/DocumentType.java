@@ -62,6 +62,9 @@ public enum DocumentType {
     @JsonProperty("correspondence")
     CORRESPONDENCE("correspondence"),
 
+    @JsonProperty("will")
+    WILL("will"),
+
     @JsonProperty("caveatCoversheet")
     CAVEAT_COVERSHEET("caveatCoversheet"),
 
@@ -129,7 +132,25 @@ public enum DocumentType {
     WELSH_INTESTACY_GRANT_DRAFT("welshIntestacyGrantDraft"),
 
     @JsonProperty("welshIntestacyGrant")
-    WELSH_INTESTACY_GRANT("welshIntestacyGrant");
+    WELSH_INTESTACY_GRANT("welshIntestacyGrant"),
+
+    @JsonProperty("welshDigitalGrantReissueDraft")
+    WELSH_DIGITAL_GRANT_REISSUE_DRAFT("welshDigitalGrantReissueDraft"),
+
+    @JsonProperty("welshIntestacyGrantReissueDraft")
+    WELSH_INTESTACY_GRANT_REISSUE_DRAFT("welshIntestacyGrantReissueDraft"),
+
+    @JsonProperty("welshAdmonWillGrantReissueDraft")
+    WELSH_ADMON_WILL_GRANT_REISSUE_DRAFT("welshAdmonWillGrantReissueDraft"),
+
+    @JsonProperty("welshDigitalGrantReissue")
+    WELSH_DIGITAL_GRANT_REISSUE("welshDigitalGrantReissue"),
+
+    @JsonProperty("welshIntestacyGrantReissue")
+    WELSH_INTESTACY_GRANT_REISSUE("welshIntestacyGrantReissue"),
+
+    @JsonProperty("welshAdmonWillGrantReissue")
+    WELSH_ADMON_WILL_GRANT_REISSUE("welshAdmonWillGrantReissue");
 
     private final String templateName;
 

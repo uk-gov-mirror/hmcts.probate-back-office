@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.controller;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +51,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -129,6 +131,7 @@ public class NotificationControllerTest {
     private static final String RAISE_GRANT = "/notify/grant-received";
     private static final String APPLICATION_RECEIVED_URL = "/notify/application-received";
     private static final String GRANT_DELAYED = "/notify/grant-delayed-scheduled?date=aDate";
+    private static final String GRANT_AWAITING_DOCS = "/notify/grant-awaiting-documents-scheduled?date=aDate";
     private static final String START_GRANT_DELAYED_NOTIFICATION_DATE = "/notify/start-grant-delayed-notify-period";
 
     private static final Map<String, Object> EMPTY_MAP = new HashMap();
@@ -237,6 +240,17 @@ public class NotificationControllerTest {
                 .andExpect(content().string(containsString("generatedBy")));
     }
 
+    @Test
+    public void personalApplicationReceivedForPaperShouldReturnDataEmptyResponse() throws Exception {
+
+        String solicitorPayload = testUtils.getStringFromFile("personalPayloadNotificationsPaper.json");
+
+        mockMvc.perform(post("/notify/application-received")
+            .content(solicitorPayload)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().string(""));
+    }
 
     @Test
     public void solicitorGrantIssuedShouldReturnDataPayloadOkResponseCode() throws Exception {
@@ -383,21 +397,21 @@ public class NotificationControllerTest {
     public void shouldReturnEmailSolsValidateSuccessful() throws Exception {
         String solicitorPayload = testUtils.getStringFromFile("solicitorAdditionalExecutors.json");
 
-        mockMvc.perform(post(DOC_RECEIVED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(DOC_RECEIVED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     public void shouldReturnEmailSolsValidateUnSuccessful() throws Exception {
         String solicitorPayload = testUtils.getStringFromFile("solicitorPayloadNoEmail.json");
 
-        mockMvc.perform(post(DOC_RECEIVED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(DOC_RECEIVED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0]")
                         .value("There is no email address for this solicitor. "
                                 + "To continue the application, go back and select no to sending an email."))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
     }
 
@@ -405,30 +419,30 @@ public class NotificationControllerTest {
     public void shouldReturnEmailPAValidateSuccessful() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotifications.json");
 
-        mockMvc.perform(post(DOC_RECEIVED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(DOC_RECEIVED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     public void shouldReturnEmailPAValidateFromBulkScanSuccessful() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotificationsFromBulkScan.json");
 
-        mockMvc.perform(post(DOC_RECEIVED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(DOC_RECEIVED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     public void shouldReturnEmailPAValidateUnSuccessful() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotificationsNoEmail.json");
 
-        mockMvc.perform(post(DOC_RECEIVED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(DOC_RECEIVED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0]")
                         .value("There is no email address for this applicant. "
                                 + "To continue the application, go back and select no to sending an email."))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
     }
 
@@ -438,7 +452,7 @@ public class NotificationControllerTest {
 
         mockMvc.perform(post("/notify/application-received")
                 .content(personalPayload)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -446,20 +460,20 @@ public class NotificationControllerTest {
     public void shouldReturnEmailSolsValidateSuccessfulCaseStopped() throws Exception {
         String solicitorPayload = testUtils.getStringFromFile("solicitorAdditionalExecutors.json");
 
-        mockMvc.perform(post(CASE_STOPPED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(CASE_STOPPED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     public void shouldReturnEmailSolsValidateUnSuccessfulCaseStopped() throws Exception {
         String solicitorPayload = testUtils.getStringFromFile("solicitorPayloadNoEmail.json");
 
-        mockMvc.perform(post(CASE_STOPPED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(CASE_STOPPED_URL).content(solicitorPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0]")
                         .value("There is no email address for this solicitor. Add an email address or contact them by post."))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
     }
 
@@ -467,20 +481,20 @@ public class NotificationControllerTest {
     public void shouldReturnEmailPAValidateSuccessfulCaseStopped() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotifications.json");
 
-        mockMvc.perform(post(CASE_STOPPED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(CASE_STOPPED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     public void shouldReturnEmailPAValidateUnSuccessfulCaseStopped() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotificationsNoEmail.json");
 
-        mockMvc.perform(post(CASE_STOPPED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(CASE_STOPPED_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0]")
                         .value("There is no email address for this applicant. Add an email address or contact them by post."))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
     }
 
@@ -488,9 +502,9 @@ public class NotificationControllerTest {
     public void shouldReturnSuccessfulForRequestInformationDefaultValues() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotifications.json");
 
-        mockMvc.perform(post(REQUEST_INFO_DEFAULT_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(REQUEST_INFO_DEFAULT_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
     }
 
@@ -498,9 +512,9 @@ public class NotificationControllerTest {
     public void shouldReturnSuccessfulResponseForInformationRequest() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotifications.json");
 
-        mockMvc.perform(post(REQUEST_INFO_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(REQUEST_INFO_URL).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(containsString("data")));
     }
 
@@ -508,9 +522,9 @@ public class NotificationControllerTest {
     public void shouldReturnSuccessfulResponseForRedeclarationSot() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotifications.json");
 
-        mockMvc.perform(post(REDECLARATION_SOT).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(REDECLARATION_SOT).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(containsString("data")));
     }
     
@@ -520,9 +534,9 @@ public class NotificationControllerTest {
         Document raiseGrantDoc = Document.builder().documentType(GRANT_RAISED).build();
         doReturn(raiseGrantDoc).when(notificationService).sendEmail(any(), any());
 
-        mockMvc.perform(post(RAISE_GRANT).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(RAISE_GRANT).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(containsString("data")));
     }
 
@@ -532,9 +546,9 @@ public class NotificationControllerTest {
         Document raiseGrantDoc = Document.builder().documentType(GRANT_RAISED).build();
         doReturn(raiseGrantDoc).when(notificationService).sendEmail(any(), any());
 
-        mockMvc.perform(post(RAISE_GRANT).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(RAISE_GRANT).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(containsString("data")));
     }
 
@@ -542,9 +556,9 @@ public class NotificationControllerTest {
     public void shouldReturnSuccessfulResponseForStartGrantDelayNotification() throws Exception {
         String personalPayload = testUtils.getStringFromFile("personalPayloadNotifications.json");
         when(callbackResponseTransformer.transformCase(any())).thenReturn(successfulResponse);
-        mockMvc.perform(post(START_GRANT_DELAYED_NOTIFICATION_DATE).content(personalPayload).contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post(START_GRANT_DELAYED_NOTIFICATION_DATE).content(personalPayload).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().string(containsString("data")));
         verify(notificationService).startGrantDelayNotificationPeriod(any());
         verify(notificationService).resetAwaitingDocumentationNotificationDate(any());
@@ -555,10 +569,14 @@ public class NotificationControllerTest {
         GrantScheduleResponse response = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("returnString")).build();
         when(grantNotificationService.handleGrantDelayedNotification("aDate")).thenReturn(response);
         mockMvc.perform(post(GRANT_DELAYED).contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("")));
-
-        verify(grantNotificationService, times(1)).handleGrantDelayedNotification(anyString());
-
+            .andExpect(status().isOk());
+    }
+    
+    @Test
+    public void shouldReturnSuccessfulResponseForGrantAwaitingDocs() throws Exception {
+        GrantScheduleResponse response = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("returnString")).build();
+        when(grantNotificationService.handleAwaitingDocumentationNotification("aDate")).thenReturn(response);
+        mockMvc.perform(post(GRANT_AWAITING_DOCS).contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 }

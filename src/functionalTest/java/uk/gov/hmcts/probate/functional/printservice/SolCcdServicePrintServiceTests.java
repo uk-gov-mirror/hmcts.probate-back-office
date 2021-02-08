@@ -1,21 +1,24 @@
 package uk.gov.hmcts.probate.functional.printservice;
 
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import net.serenitybdd.junit.runners.SerenityRunner;
-import net.serenitybdd.rest.SerenityRest;
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-@RunWith(SerenityRunner.class)
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
 
     @Test
     public void verifySuccessForGetPrintTemplateDocuments() {
-        Response response = SerenityRest.given()
+        Response response = RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeadersWithUserId())
                 .body(utils.getJsonFromFile("success.printCaseDetails.json")).
@@ -29,7 +32,7 @@ public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
 
     @Test
     public void verifySolsTemplateDetails() {
-        Response response = SerenityRest.given().relaxedHTTPSValidation()
+        Response response = RestAssured.given().relaxedHTTPSValidation()
                 .headers(utils.getHeadersWithUserId())
                 .when().get("/template/case-details/sol");
 
@@ -59,7 +62,7 @@ public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
 
     @Test
     public void verifyPaTemplateDetails() {
-        Response response = SerenityRest.given().relaxedHTTPSValidation()
+        Response response = RestAssured.given().relaxedHTTPSValidation()
                 .headers(utils.getHeadersWithUserId())
                 .when().get("/template/case-details/pa");
 
@@ -87,4 +90,27 @@ public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void verifyprobateManLegacyCaseReturnsOkResponseCode() {
+        Response response = RestAssured.given().relaxedHTTPSValidation()
+                .headers(utils.getHeadersWithUserId())
+                .when().get("/template/probateManLegacyCase");
+        response.prettyPrint();
+
+        assertThat(response.statusCode(),is(equalTo(200)));
+        assertTrue(response.getBody().asString().contains("Probate Man Legacy Case"));
+    }
+
+    @Test
+    public void verifyprobateManLegacyCaseReturnsBadResponseCode() {
+        Response response = RestAssured.given().relaxedHTTPSValidation()
+                .headers(utils.getHeadersWithUserId("serviceToken","userId"))
+                .when().get("/template/probateManLegacyCase");
+        response.prettyPrint();
+
+        assertThat(response.statusCode(),is(equalTo(403)));
+        assertTrue(response.getBody().asString().contains("Forbidden"));
+    }
 }
+
+

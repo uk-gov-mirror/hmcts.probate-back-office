@@ -1,10 +1,14 @@
 package uk.gov.hmcts.probate.controller;
 
+import uk.gov.hmcts.probate.model.ccd.raw.CollectionMember;
+import uk.gov.hmcts.probate.model.ccd.raw.EstateItem;
 import uk.gov.hmcts.probate.model.ccd.raw.SolsAddress;
 import uk.gov.hmcts.probate.model.ccd.raw.request.CaseData;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 public class CaseDataTestBuilder {
 
@@ -25,7 +29,7 @@ public class CaseDataTestBuilder {
     private static final String SOLS_NOT_APPLYING_REASON = "Power reserved";
     private static final String SOLICITOR_APPLYING = "Yes";
     public static final String IHT_FORM = "IHT207";
-    public static final String PAYMENT_METHOD = "Cheque";
+    public static final String PAYMENT_METHOD = "fee account";
     public static final String WILL_HAS_CODICLIS = "Yes";
     public static final String NUMBER_OF_CODICLIS = "1";
     public static final BigDecimal NET = BigDecimal.valueOf(1000f);
@@ -42,7 +46,7 @@ public class CaseDataTestBuilder {
             .postCode(PRIMARY_ADDRESS_PC).build();
     public static final String PRIMARY_APPLICANT_APPLYING = "Yes";
     public static final String PRIMARY_APPLICANT_HAS_ALIAS = "No";
-    public static final String PRIMARY_APPLICANT_EMAIL_ADDRESS = "test@test.com";
+    public static final String PRIMARY_APPLICANT_EMAIL_ADDRESS = "primary@probate-test.com";
     public static final String OTHER_EXEC_EXISTS = "No";
     public static final String WILL_EXISTS = "Yes";
     public static final String WILL_TYPE = "WillLeft";
@@ -58,6 +62,20 @@ public class CaseDataTestBuilder {
     public static final BigDecimal FEE_FOR_NON_UK_COPIES = BigDecimal.TEN;
     public static final BigDecimal TOTAL_FEE = BigDecimal.TEN;
     public static final String NEED_TO_UPDATE = "No";
+    public static final String APPLICATION_GROUNDS = "Application grounds";
+
+    public static final String REGISTRY_SEQUENCE_NUMBER = "12345";
+    public static final String DECEASED_DEATH_CERTIFICATE = "deathCertificate";
+    public static final String DECEASED_DIED_ENG_OR_WALES = "Yes";
+    public static final String DECEASED_FOREIGN_DEATH_CERT_IN_ENGLISH = "Yes";
+    public static final String DECEASED_FOREIGN_DEATH_CERT_TRANSLATION = "Yes";
+
+    private static final List<CollectionMember<EstateItem>> UK_ESTATE = Arrays.asList(
+            new CollectionMember<>(null,
+                    EstateItem.builder()
+                            .item("Item")
+                            .value("999.99")
+                            .build()));
 
     public static CaseData.CaseDataBuilder withDefaults() {
 
@@ -102,6 +120,8 @@ public class CaseDataTestBuilder {
                 .solsWillType(WILL_TYPE)
                 .willExists(WILL_EXISTS)
                 .willAccessOriginal(WILL_ACCESS_ORIGINAL)
+                .ukEstate(UK_ESTATE)
+                .applicationGrounds(APPLICATION_GROUNDS)
                 .ihtNetValue(NET)
                 .ihtGrossValue(GROSS)
                 .solsSOTNeedToUpdate(SOT_NEED_TO_UPDATE)
@@ -122,7 +142,12 @@ public class CaseDataTestBuilder {
                 .feeForNonUkCopies(FEE_FOR_NON_UK_COPIES)
                 .extraCopiesOfGrant(EXTRA_UK)
                 .outsideUKGrantCopies(EXTRA_OUTSIDE_UK)
-                .totalFee(TOTAL_FEE);
+                .totalFee(TOTAL_FEE)
+                .registrySequenceNumber(REGISTRY_SEQUENCE_NUMBER)
+                .deceasedDeathCertificate(DECEASED_DEATH_CERTIFICATE)
+                .deceasedDiedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
+                .deceasedForeignDeathCertInEnglish(DECEASED_FOREIGN_DEATH_CERT_IN_ENGLISH)
+                .deceasedForeignDeathCertTranslation(DECEASED_FOREIGN_DEATH_CERT_TRANSLATION);
     }
 
 }
