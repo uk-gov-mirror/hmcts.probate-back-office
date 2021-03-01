@@ -30,6 +30,36 @@ module.exports = function () {
         enterGrantOfProbatePage7: steps.createGrantOfProbate.page7,
         enterGrantOfProbatePage8: steps.createGrantOfProbate.page8,
         enterGrantOfProbatePage9: steps.createGrantOfProbate.page9,
+
+        caseProgressSolicitorDetails: steps.caseProgress.solicitorDetails,
+        caseProgressSolicitorDetailsCheckAnswers: steps.caseProgress.solicitorDetailsCheckAnswers,
+        caseProgressDeceasedDetails: steps.caseProgress.deceasedDetails,
+        caseProgressDeceasedDetails2: steps.caseProgress.deceasedDetails2,
+        caseProgressCheckCaseProgressTab: steps.caseProgress.checkCaseProgressTab,
+        caseProgressClickElementsAndContinue: steps.caseProgress.clickElementsAndContinue,
+        caseProgressClickSelectOrFillElementsAndContinue: steps.caseProgress.clickSelectOrFillElementsAndContinue,
+        caseProgressWaitForElementThenContinue: steps.caseProgress.waitForElementThenContinue,
+        caseProgressCheckYourAnswers: steps.caseProgress.checkYourAnswers,
+        caseProgressConfirmApplication: steps.caseProgress.confirmApplication,
+        caseProgressCompleteApplication: steps.caseProgress.completeApplication,
+        caseProgressSubmittedConfirmation: steps.caseProgress.submittedConfirmation,
+        caseProgressNavigateToCaseCaseworker: steps.caseProgress.navigateToCaseCaseworker,
+        caseProgressCaseworkerChangeState: steps.caseProgress.caseworkerChangeState,
+        caseProgressClickGoAndSignOut: steps.caseProgress.clickGoAndSignOut,
+        caseProgressNavigateToCaseSolicitor: steps.caseProgress.navigateToCaseSolicitor,
+        caseProgressFeePayment: steps.caseProgress.feePayment,
+        caseProgressContinueWithoutChangingAnything: steps.caseProgress.continueWithoutChangingAnything,
+
+        caseProgressAppStoppedDetails: steps.caseProgressAppStopped.appStoppedDetails,
+        caseProgressAppStoppedTabCheck: steps.caseProgressAppStopped.appStoppedTabCheck,
+
+        caseProgressStandardDeceasedDetailsCheck: steps.caseProgressStandard.deceasedDetailsCheck,
+
+        caseProgressStopEscalateIssueDeceasedDetailsCheck: steps.caseProgressStopEscalateIssue.deceasedDetailsCheck,
+        caseProgressStopEscalateIssueStoppedTabCheck: steps.caseProgressStopEscalateIssue.stoppedTabCheck,
+        caseProgressStopEscalateIssueAddCaseStoppedReason: steps.caseProgressStopEscalateIssue.addCaseStoppedReason,
+        caseProgressStopEscalateIssueEscalatedTabCheck: steps.caseProgressStopEscalateIssue.escalatedTabCheck,
+
         checkMyAnswers: steps.checkYourAnswers.checkYourAnswers,
         seeCaseDetails: steps.caseDetails.caseDetails,
         seeUpdatesOnCase: steps.caseDetails.caseDetailsUpdated,
@@ -69,12 +99,14 @@ module.exports = function () {
         admonWillDetailsPage4: steps.solicitorApplyProbate.admonWillDetails.page4,
         intestacyDetailsPage1: steps.solicitorApplyProbate.intestacyDetails.page1,
         intestacyDetailsPage2: steps.solicitorApplyProbate.intestacyDetails.page2,
+        intestacyDetailsPage3: steps.solicitorApplyProbate.intestacyDetails.page3,
         applyCaveatPage1: steps.solicitorApplyCaveat.applyCaveat.page1,
         applyCaveatPage2: steps.solicitorApplyCaveat.applyCaveat.page2,
         caveatApplicationDetailsPage1: steps.solicitorApplyCaveat.applicationDetails.page1,
         caveatApplicationDetailsPage2: steps.solicitorApplyCaveat.applicationDetails.page2,
         completeCaveatApplicationPage1: steps.solicitorApplyCaveat.completeApplication.page1,
         completeCaveatApplicationPage2: steps.solicitorApplyCaveat.completeApplication.page2,
-        completeCaveatApplicationPage3: steps.solicitorApplyCaveat.completeApplication.page3
+        completeCaveatApplicationPage3: steps.solicitorApplyCaveat.completeApplication.page3,
+        getCaseRefFromUrl: steps.utility.getCaseRefFromUrl
     });
 };

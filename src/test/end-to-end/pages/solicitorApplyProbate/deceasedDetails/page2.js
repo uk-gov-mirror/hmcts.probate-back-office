@@ -6,6 +6,7 @@ const commonConfig = require('src/test/end-to-end/pages/common/commonConfig');
 module.exports = async function () {
     const I = this;
     await I.waitForElement('#applicationGrounds');
+    await I.runAccessibilityTest();
     await I.fillField('#applicationGrounds', deceasedDetailsConfig.page2_applicationGrounds);
     await I.click(`#deceasedDomicileInEngWales-${deceasedDetailsConfig.optionYes}`);
     await I.click(`#deceasedAnyOtherNames-${deceasedDetailsConfig.optionNo}`);
@@ -19,7 +20,7 @@ module.exports = async function () {
     await I.fillField('#deceasedAddress_PostCode', deceasedDetailsConfig.address_postcode);
     await I.fillField('#deceasedAddress_Country', deceasedDetailsConfig.address_country);
 
-    await I.selectOption('#ihtFormId', deceasedDetailsConfig.page2_solsIHTFormValue);
+    await I.click({css: `#ihtFormId-${deceasedDetailsConfig.page2_IHTOption}`});
     await I.fillField('#ihtNetValue', deceasedDetailsConfig.page2_ihtNetValue);
     await I.fillField('#ihtGrossValue', deceasedDetailsConfig.page2_ihtGrossValue);
 
