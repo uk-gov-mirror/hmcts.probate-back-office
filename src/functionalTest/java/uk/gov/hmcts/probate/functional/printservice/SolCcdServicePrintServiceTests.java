@@ -9,6 +9,9 @@ import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
@@ -16,22 +19,23 @@ public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
     @Test
     public void verifySuccessForGetPrintTemplateDocuments() {
         Response response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getHeadersWithUserId())
-                .body(utils.getJsonFromFile("success.printCaseDetails.json")).
-                        when().post("/template/documents");
+            .relaxedHTTPSValidation()
+            .headers(utils.getHeadersWithUserId())
+            .body(utils.getJsonFromFile("success.printCaseDetails.json"))
+            .when().post("/template/documents");
 
         assertEquals(200, response.getStatusCode());
         assertTrue(response.getBody().asString().contains("/probate/sol"));
-        assertTrue(response.getBody().asString().contains("jurisdictions/PROBATE/case-types/GrantOfRepresentation/cases"));
+        assertTrue(
+            response.getBody().asString().contains("jurisdictions/PROBATE/case-types/GrantOfRepresentation/cases"));
     }
 
 
     @Test
     public void verifySolsTemplateDetails() {
         Response response = RestAssured.given().relaxedHTTPSValidation()
-                .headers(utils.getHeadersWithUserId())
-                .when().get("/template/case-details/sol");
+            .headers(utils.getHeadersWithUserId())
+            .when().get("/template/case-details/sol");
 
         assertEquals(200, response.getStatusCode());
         assertTrue(response.getBody().asString().contains("Case number:"));
@@ -60,8 +64,8 @@ public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
     @Test
     public void verifyPaTemplateDetails() {
         Response response = RestAssured.given().relaxedHTTPSValidation()
-                .headers(utils.getHeadersWithUserId())
-                .when().get("/template/case-details/pa");
+            .headers(utils.getHeadersWithUserId())
+            .when().get("/template/case-details/pa");
 
         assertEquals(200, response.getStatusCode());
         assertTrue(response.getBody().asString().contains("Case Number:"));
@@ -87,4 +91,27 @@ public class SolCcdServicePrintServiceTests extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void verifyprobateManLegacyCaseReturnsOkResponseCode() {
+        Response response = RestAssured.given().relaxedHTTPSValidation()
+            .headers(utils.getHeadersWithUserId())
+            .when().get("/template/probateManLegacyCase");
+        response.prettyPrint();
+
+        assertThat(response.statusCode(), is(equalTo(200)));
+        assertTrue(response.getBody().asString().contains("Probate Man Legacy Case"));
+    }
+
+    @Test
+    public void verifyprobateManLegacyCaseReturnsBadResponseCode() {
+        Response response = RestAssured.given().relaxedHTTPSValidation()
+            .headers(utils.getHeadersWithUserId("serviceToken", "userId"))
+            .when().get("/template/probateManLegacyCase");
+        response.prettyPrint();
+
+        assertThat(response.statusCode(), is(equalTo(403)));
+        assertTrue(response.getBody().asString().contains("Forbidden"));
+    }
 }
+
+

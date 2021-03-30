@@ -100,7 +100,7 @@
       "solsSolicitorFirmName": "Solicitor Firm Name",
       "deceasedDateOfDeath": "2000-01-01",
       "solsSOTNeedToUpdate": "No",
-      "primaryApplicantEmailAddress": "personal@hmcts-test.com",
+      "primaryApplicantEmailAddress": "primary@probate-test.com",
       "primaryApplicantForenames": "Executor name 1",
       "primaryApplicantAddress": {
         "County": "",
@@ -111,7 +111,7 @@
         "AddressLine2": "",
         "AddressLine3": ""
       },
-      "solsSolicitorEmail": "probBackosol@gmail.com",
+      "solsSolicitorEmail": "solicitor@probate-test.com",
       "applicationGrounds": "Grounds for application",
       "ukEstate": [
         {
@@ -153,6 +153,7 @@
       "solsSolicitorNotApplyingReason": null,
       "ihtGrossValue": "1000000",
       "ihtFormId": "IHT205",
+      "iht217": "Yes",
       "registryLocation": "Birmingham",
       "primaryApplicantSurname": "Executor Last Name 1",
       "solsSolicitorAppReference": "1231-3984-3949-0300",
@@ -383,7 +384,7 @@
         "AddressLine2": "",
         "AddressLine3": ""
       },
-      "solsSolicitorEmail": "probBackosol@gmail.com",
+      "solsSolicitorEmail": "solicitor@probate-test.com",
       "applicationGrounds": "Grounds for application",
       "ukEstate": [
         {
@@ -416,6 +417,7 @@
       "primaryApplicantHasAlias": "No",
       "ihtGrossValue": "1000000",
       "ihtFormId": "IHT205",
+      "iht217": "Yes",
       "registryLocation": "Birmingham",
       "primaryApplicantSurname": "Executor Last Name 1",
       "solsSolicitorAppReference": "1231-3984-3949-0300"
