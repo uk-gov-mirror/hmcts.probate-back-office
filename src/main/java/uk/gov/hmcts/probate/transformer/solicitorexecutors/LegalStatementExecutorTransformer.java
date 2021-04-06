@@ -38,7 +38,4 @@ public class LegalStatementExecutorTransformer extends ExecutorsTransformer {
         caseData.setExecutorsApplyingLegalStatement(execsApplying);
         caseData.setExecutorsNotApplyingLegalStatement(execsNotApplying);
     }
-
-
-
 }

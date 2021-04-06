@@ -9,6 +9,9 @@ import uk.gov.hmcts.probate.transformer.solicitorexecutors.LegalStatementExecuto
 
 @Component
 @RequiredArgsConstructor
+/**
+ * Mutates the object properties of the caseData passed in as a parameter
+ */
 public class CaseDataTransformer {
 
     private final LegalStatementExecutorTransformer legalStatementExecutorTransformer;
@@ -27,5 +30,11 @@ public class CaseDataTransformer {
 
         resetCaseDataTransformer.resetExecutorLists(caseData);
     }
+
+    public void transformCaseDataForApplicationSubmit(CallbackRequest callbackRequest) {
+        CaseData caseData = callbackRequest.getCaseDetails().getData();
+
+    }
+
 
 }

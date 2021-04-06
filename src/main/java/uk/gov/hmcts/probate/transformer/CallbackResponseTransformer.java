@@ -78,6 +78,8 @@ import static uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Gran
 
 @Component
 @RequiredArgsConstructor
+// Use this class to perform transforms that are always required irrespective of the event.
+// Further mutate the returned response for specific changes required for particular events.
 public class CallbackResponseTransformer {
 
     public static final String ANSWER_YES = "Yes";

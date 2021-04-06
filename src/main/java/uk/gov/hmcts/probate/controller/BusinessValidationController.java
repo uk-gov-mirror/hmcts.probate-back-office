@@ -137,6 +137,13 @@ public class BusinessValidationController {
                 stateChangeService.getChangedStateForProbateUpdate(callbackRequest.getCaseDetails().getData());
             response = getCallbackResponseForGenerateAndUpload(callbackRequest, newState, LEGAL_STATEMENT_PROBATE,
                 GRANT_OF_PROBATE_NAME);
+                /*
+            solicitorExecutorTransformer.setFieldsIfSolicitorIsNotExecutor(caseData, builder);
+            solicitorExecutorTransformer.mapSolicitorExecutorFieldsToCaseworkerExecutorFields(caseData, builder);
+            // Remove the solicitor exec lists. Will not be needed now mapped onto caseworker exec lists.
+            solicitorExecutorTransformer.nullSolicitorExecutorLists(builder);
+            */
+
         }
         return ResponseEntity.ok(response);
     }
