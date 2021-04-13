@@ -8,4 +8,21 @@
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
         <cve>CVE-2018-1258</cve>
     </suppress>
+    <suppress>
+        <cve>CVE-2017-17485</cve>
+        <cve>CVE-2017-7525</cve>
+        <cve>CVE-2018-5968</cve>
+        <cve>CVE-2017-15095</cve>
+        <cve>CVE-2018-14718</cve>
+        <cve>CVE-2018-1000873</cve>
+        <cve>CVE-2018-7489</cve>
+        <cve>CVE-2019-17267</cve>
+        <cve>CVE-2019-16335</cve>
+        <cve>CVE-2019-10172</cve>
+        <cve>CVE-2019-14893</cve>
+        <cve>CVE-2019-14540</cve>
+        <cve>CVE-2018-1258</cve>
+        <cve>CVE-2019-11269</cve>
+        <cve>CVE-2019-3778</cve>
+    </suppress>
 </suppressions>
