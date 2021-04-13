@@ -40,7 +40,8 @@ public class CcdClientApi implements CoreCaseDataService {
                 ccdCaseType.getName(),
                 eventId.getName()
         );
-        CaseDataContent caseDataContent = createCaseDataContent(object, eventId, startEventResponse, PROBATE_APPLICATION, PROBATE_APPLICATION);
+        CaseDataContent caseDataContent = createCaseDataContent(object, eventId, startEventResponse,
+                PROBATE_APPLICATION, PROBATE_APPLICATION);
         log.info("Submit case for create case");
         return coreCaseDataApi.submitForCaseworker(
                 securityDTO.getAuthorisation(),
@@ -88,7 +89,8 @@ public class CcdClientApi implements CoreCaseDataService {
                 caseId,
                 eventId.getName()
         );
-        CaseDataContent caseDataContent = createCaseDataContent(caseData, eventId, startEventResponse, PROBATE_APPLICATION, PROBATE_APPLICATION);
+        CaseDataContent caseDataContent = createCaseDataContent(caseData, eventId, startEventResponse,
+                PROBATE_APPLICATION, PROBATE_APPLICATION);
         log.info("Submit event to CCD for Caseworker, caseType: {}, caseId: {}",
                 caseType.getName(), caseId);
         return coreCaseDataApi.submitEventForCaseWorker(
@@ -119,7 +121,8 @@ public class CcdClientApi implements CoreCaseDataService {
                 caseId,
                 eventId.getName()
         );
-        CaseDataContent caseDataContent = createCaseDataContent(caseData, eventId, startEventResponse, description, summary);
+        CaseDataContent caseDataContent = createCaseDataContent(caseData, eventId, startEventResponse, description,
+                summary);
         log.info("Submit event to CCD for citizen, caseType: {}, caseId: {}",
                 caseType.getName(), caseId);
         return coreCaseDataApi.submitEventForCitizen(
