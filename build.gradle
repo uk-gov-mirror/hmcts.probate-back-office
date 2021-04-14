@@ -262,7 +262,7 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'pdf-service-client', version: '6.0.0'
   compile group: 'uk.gov.hmcts.reform', name: 'send-letter-client', version: '2.5.0'
   compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
-  compile group: 'uk.gov.hmcts.reform', name: 'life-events-client', version: '0.0.1-DTSPB-1526-2-2'
+  compile group: 'uk.gov.hmcts.reform', name: 'life-events-client', version: '0.0.1-DTSPB-1526-2-3'
 
   compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.8'
   compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
