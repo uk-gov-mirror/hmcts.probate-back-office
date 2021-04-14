@@ -70,8 +70,6 @@ public class LifeEventService {
                         LIFE_EVENT_VERIFICATION_SUCCESSFUL,
                         REVIEW_LEV_TAB_PROCEED_TO_OTHER_CHECKS
                 );
-
-        log.info("caseDetailsReturned: {}", caseDetailsReturned.getData().toString());
     }
 
     private List<CollectionMember<DeathRecord>> mapDeathRecords(List<V1Death> deathRecords) {
