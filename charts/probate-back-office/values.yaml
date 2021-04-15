@@ -59,3 +59,11 @@ java:
         - launchdarkly-key
         - probate-site-id
         - launchdarklyUserkeyBackend
+        - levPublicCertificate
+        - levPrivateKey
+        - levAccessTokenUri
+        - levClientId
+        - levClientSecret
+        - levUsername
+        - levPassword
+        - levDeathUrl
