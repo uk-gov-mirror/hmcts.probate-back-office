@@ -105,7 +105,6 @@
   {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "Disposed", "UserRole": "caseworker-probate-systemupdate", "CRUD": "CRUD"},
   {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "SolAppCreated", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
   {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "SolAppUpdated", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
-  {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "CaveatRaised", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
   {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "CaveatPermanent", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "R"},
   {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "CaveatClosed", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "R"},
   {"LiveFrom": "01/01/2017", "LiveTo": "01/01/2020", "CaseTypeID": "Caveat", "CaseStateID": "CaveatMatching", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "R"},
