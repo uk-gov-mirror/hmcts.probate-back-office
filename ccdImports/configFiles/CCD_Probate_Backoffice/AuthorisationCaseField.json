@@ -3184,7 +3184,7 @@
   {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "executorsNotApplying", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "ihtFormCompletedOnline", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "calcCheckCompleted", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
-  {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "ihtReferenceNumber", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRU"}, U"},
+  {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "ihtReferenceNumber", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRU"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "ihtUnusedAllowanceClaimed", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "extraCopiesOfGrant", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRU"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "outsideUKGrantCopies", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRU"},
