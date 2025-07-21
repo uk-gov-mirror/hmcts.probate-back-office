@@ -1022,7 +1022,7 @@
   {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "autoNotificationDormantWarning", "UserRole": "caseworker-probate-scheduler", "CRUD": "CRUD"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "autoNotificationUnsubmittedApplication", "UserRole": "caseworker-probate-scheduler", "CRUD": "CRUD"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "autoNotificationDeclarationNotSigned", "UserRole": "caseworker-probate-scheduler", "CRUD": "CRUD"},
-  {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "createCase", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "R"},
+  {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "createCase", "UserRole": "caseworker-probate-solicitor", "CRUD": "R"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "applyForGrant", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "R"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "solicitorCreateApplication", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
   {"CaseTypeID": "GrantOfRepresentation", "CaseEventID": "solicitorUpdateAppSolDtls", "UserRole": "[APPLICANTSOLICITOR]", "CRUD": "CRUD"},
