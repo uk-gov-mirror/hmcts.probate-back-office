@@ -89,7 +89,9 @@ module.exports = async function (caseRef, useWaitInUrl = true, caseType) {
     // await I.wait(testConfig.CaseworkerCaseNavigateDelay);
 
     const caseRefNoDashes = await I.replaceAll(caseRef, '-', '');
-    const url = caseType === 'Caveat' ? `${testConfig.TestBackOfficeUrl}/cases/case-details/PROBATE/Caveat/${caseRefNoDashes}` : `${testConfig.TestBackOfficeUrl}/cases/case-details/PROBATE/GrantOfRepresentation/${caseRefNoDashes}`;
+    const caveatUrl = `${testConfig.TestBackOfficeUrl}/cases/case-details/PROBATE/Caveat/${caseRefNoDashes}`;
+    const gorUrl = `${testConfig.TestBackOfficeUrl}/cases/case-details/PROBATE/GrantOfRepresentation/${caseRefNoDashes}`;
+    const url = caseType === 'Caveat' ? caveatUrl : gorUrl;
     if (useWaitInUrl) {
         I.amOnLoadedPage(url);
     } else {
