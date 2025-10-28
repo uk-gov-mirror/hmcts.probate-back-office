@@ -23,10 +23,9 @@ import uk.gov.hmcts.probate.model.ExecutorsApplyingNotification;
 import uk.gov.hmcts.probate.model.LanguagePreference;
 import uk.gov.hmcts.probate.model.SentEmail;
 import uk.gov.hmcts.probate.model.State;
+import uk.gov.hmcts.probate.model.ccd.CcdCaseType;
 import uk.gov.hmcts.probate.model.ccd.caveat.request.CaveatData;
 import uk.gov.hmcts.probate.model.ccd.caveat.request.CaveatDetails;
-import uk.gov.hmcts.probate.model.ccd.caveat.request.ReturnedCaveatDetails;
-import uk.gov.hmcts.reform.probate.model.cases.BulkPrint;
 import uk.gov.hmcts.probate.model.ccd.raw.CollectionMember;
 import uk.gov.hmcts.probate.model.ccd.raw.Document;
 import uk.gov.hmcts.probate.model.ccd.raw.request.CallbackRequest;
@@ -47,6 +46,7 @@ import uk.gov.hmcts.probate.service.user.UserInfoService;
 import uk.gov.hmcts.probate.validator.EmailAddressNotifyValidationRule;
 import uk.gov.hmcts.probate.validator.PersonalisationValidationRule;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.probate.model.cases.BulkPrint;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
@@ -97,6 +97,10 @@ public class NotificationService {
     private static final String PERSONALISATION_SOT_LINK = "sot_link";
     private static final String PERSONALISATION_EXECUTOR_NAME = "executor_name";
     private static final String PERSONALISATION_EXECUTOR_NAMES_LIST = "executor_names_list";
+    private static final String GOP_CASE_TYPE = "gop";
+    private static final String INTESTACY_CASE_TYPE = "intestacy";
+    private static final String ADMON_WILL_CASE_TYPE = "admonWill";
+    private static final String AD_COLLIGENDA_BONA_CASE_TYPE = "adColligendaBona";
     private static final DateTimeFormatter RELEASE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final List<String> PA_DRAFT_STATE_LIST = List.of(STATE_PENDING, STATE_CASE_PAYMENT_FAILED);
 
@@ -164,6 +168,8 @@ public class NotificationService {
         }
 
         updatePersonalisationForSolicitor(caseData, personalisation);
+        personalisation = updatePersonalisationForSolicitorGrantIssuedEmails(state, caseData, caseDetails.getId(),
+                personalisation);
 
         String emailReplyToId = registry.getEmailReplyToId();
         String emailAddress = getEmail(caseData);
@@ -171,7 +177,8 @@ public class NotificationService {
 
         doCommonNotificationServiceHandling(personalisation, caseDetails.getId());
 
-        log.info("Personlisation complete now get the email repsonse");
+        log.info("Personalisation is complete. Fetching the email response");
+
         SendEmailResponse response =
             getSendEmailResponse(state, templateId, emailReplyToId, emailAddress, personalisation, reference,
                 caseDetails.getId());
@@ -221,6 +228,47 @@ public class NotificationService {
         }
     }
 
+    Map<String, Object> updatePersonalisationForSolicitorGrantIssuedEmails(State state, CaseData caseData, Long caseId,
+                                                            Map<String, Object> personalisation) {
+        if (caseData.getApplicationType().equals(ApplicationType.SOLICITOR)
+                && (state == State.GRANT_ISSUED || state == State.GRANT_ISSUED_INTESTACY
+                || state == State.GRANT_REISSUED)) {
+
+            String caseType = caseData.getCaseType();
+            if (caseType.isBlank()) {
+                log.error("Personalisation validation failed for blank caseType on case {}", caseId);
+                throw new RequestInformationParameterException();
+            }
+
+            personalisation.put("case_type_text", switch (caseType) {
+                case GOP_CASE_TYPE -> "grant of probate";
+                case INTESTACY_CASE_TYPE -> "letters of administration";
+                case ADMON_WILL_CASE_TYPE -> "letters of administration with will annexed";
+                case AD_COLLIGENDA_BONA_CASE_TYPE -> "Ad Colligenda Bona grant";
+                default -> {
+                    log.error("Personalisation validation failed due to unknown caseType: {} on case: {}",
+                            caseType, caseId);
+                    throw new RequestInformationParameterException();
+                }
+            });
+
+            if (caseData.getLanguagePreference() == LanguagePreference.WELSH) {
+                personalisation.put("welsh_case_type_text", switch (caseType) {
+                    case GOP_CASE_TYPE -> "grant profiant";
+                    case INTESTACY_CASE_TYPE -> "llythyrau gweinyddu";
+                    case ADMON_WILL_CASE_TYPE -> "llythyrau gweinyddu pan fydd yna ewyllys";
+                    case AD_COLLIGENDA_BONA_CASE_TYPE -> "grant Ad Colligenda Bona";
+                    default -> {
+                        log.error("Welsh Personalisation validation failed due to unknown caseType: {} on case: {}",
+                                caseType, caseId);
+                        throw new RequestInformationParameterException();
+                    }
+                });
+            }
+        }
+        return personalisation;
+    }
+
     public Document sendSealedAndCertifiedEmail(CaseDetails caseDetails) throws NotificationClientException {
         CaseData caseData = caseDetails.getData();
         String reference = caseDetails.getId().toString();
@@ -260,7 +308,7 @@ public class NotificationService {
 
         doCommonNotificationServiceHandling(personalisation, caseDetails.getId());
 
-        log.info("Personlisation complete now get the email response");
+        log.info("Personalisation is complete. Fetching the email response");
 
         SendEmailResponse response =
                 getSendEmailResponse(state, templateId, emailReplyToId, emailAddress, personalisation, reference,
@@ -287,7 +335,7 @@ public class NotificationService {
 
         doCommonNotificationServiceHandling(personalisation, caveatDetails.getId());
 
-        log.info("Personlisation complete now get the email response");
+        log.info("Personalisation is complete. Fetching the email response");
 
         SendEmailResponse response =
                 getSendEmailResponse(state, templateId, emailReplyToId, emailAddress, personalisation, reference,
@@ -296,25 +344,14 @@ public class NotificationService {
         return getSentEmailDocument(state, emailAddress, response);
     }
 
-    public void sendEmailForGORSuccessfulPayment(List<ReturnedCaseDetails> cases, String fromDate, String toDate)
+    public void sendEmailForDraftSuccessfulPayment(List<uk.gov.hmcts.reform.ccd.client.model.CaseDetails> cases,
+                                                   String fromDate, String toDate, CcdCaseType ccdCaseType)
             throws NotificationClientException {
         log.info("Sending email for Draft cases with payment status as Success");
 
         String templateId = getTemplateId();
         Map<String, Object> personalisation = grantOfRepresentationPersonalisationService
-                .getGORDraftCaseWithPaymentPersonalisation(cases, fromDate, toDate);
-
-        sendEmailForDraftCases(templateId, personalisation);
-    }
-
-    public void sendEmailForCaveatSuccessfulPayment(List<ReturnedCaveatDetails> cases, String fromDate, String toDate)
-            throws NotificationClientException {
-        log.info("Sending email for Draft Caveat cases with payment status as Success");
-
-        String templateId = getTemplateId();
-        Map<String, Object> personalisation = grantOfRepresentationPersonalisationService
-                .getCaveatDraftCaseWithPaymentPersonalisation(cases, fromDate, toDate);
-
+                .getDraftCaseWithPaymentPersonalisation(cases, fromDate, toDate,ccdCaseType);
         sendEmailForDraftCases(templateId, personalisation);
     }
 
