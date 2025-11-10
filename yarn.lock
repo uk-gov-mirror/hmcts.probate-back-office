@@ -1281,7 +1281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^24.0.0":
   version: 24.10.0
   resolution: "@types/node@npm:24.10.0"
   dependencies:
@@ -1296,15 +1296,6 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.21.0"
   checksum: 10/d3e2f47b1417d5dc8d8f425d2efecaa1fd8fe201b4e8de3e6fa8a54841487e48d81d9f24caaf329d316248b3eff8852f82faf16c177ba3606b09442e5094fc7e
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^22.0.0":
-  version: 22.19.0
-  resolution: "@types/node@npm:22.19.0"
-  dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/fdb16593b54fcc82f16064da089f89e80df3da70162a379dc9dc91fd65234704d738f31a5479ab1affc45ca531333ccdb4fad5546e5fcd40327987b9539f173f
   languageName: node
   linkType: hard
 
@@ -1661,7 +1652,7 @@ __metadata:
     "@date-fns/upgrade": "npm:^1.0.3"
     "@hmcts/playwright-common": "npm:^1.0.32"
     "@playwright/test": "npm:^1.43.1"
-    "@types/node": "npm:^22.0.0"
+    "@types/node": "npm:^24.0.0"
     chai: "npm:^4.1.0"
     chai-http: "npm:^4.3.0"
     chai-string: "npm:^1.5.0"
