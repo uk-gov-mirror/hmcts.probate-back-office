@@ -442,7 +442,7 @@ class CamundaTaskWaConfigurationTest extends DmnDecisionTableBaseUnitTest {
                 ),
                 Arguments.of(
                         REDECLARATION,
-                        CaseDataBuilder.defaultWaCase().isUrgent().build(),
+                        CaseDataBuilder.defaultWaCase().isUrgent().setRedeclarationUserIdamId(DEFAULT_ASSIGNEE).build(),
                         HANDLE_EVIDENCE_EVENT,
                         ConfigurationExpectationBuilder.examineDigitalCaseExpectationsForConditions(
                                 Map.of("taskType", REDECLARATION,
@@ -457,7 +457,7 @@ class CamundaTaskWaConfigurationTest extends DmnDecisionTableBaseUnitTest {
         DmnDecisionTableImpl logic = (DmnDecisionTableImpl) decision.getDecisionLogic();
         assertThat(logic.getInputs().size(), is(2));
         assertThat(logic.getOutputs().size(), is(3));
-        assertEquals(20, logic.getRules().size());
+        assertEquals(21, logic.getRules().size());
     }
 
     @ParameterizedTest(name = "task type: {0} case data: {1}")
